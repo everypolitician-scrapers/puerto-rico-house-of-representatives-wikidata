@@ -3,5 +3,11 @@
 
 require 'wikidata/fetcher'
 
-names = EveryPolitician::Wikidata.morph_wikinames(source: 'tmtmtmtm/puerto-rico-house-of-representatives-29', column: 'wikiname')
-EveryPolitician::Wikidata.scrape_wikidata(names: { en: names }, output: false)
+names = EveryPolitician::Wikidata.wikipedia_xpath(
+  url: 'https://en.wikipedia.org/wiki/29th_House_of_Representatives_of_Puerto_Rico',
+  after: '//span[@id="Composition"]',
+  before: '//span[@id="Commissions"]',
+  xpath: './/table//tr[td]//td[2]//a[not(@class="new")][1]/@title',
+)
+
+EveryPolitician::Wikidata.scrape_wikidata(names: { en: names })
